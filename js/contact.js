@@ -15,61 +15,56 @@ formInputs.forEach(input => {
         }
     });
 
-    // Validate on input
-    input.addEventListener('input', validateInput);
+    // Set initial state for filled inputs
+    if (input.value) {
+        input.parentElement.classList.add('focused');
+    }
 });
 
-function validateInput(e) {
-    const input = e.target;
-    const value = input.value;
-    const type = input.type;
-    let isValid = true;
-
-    switch(type) {
-        case 'email':
-            isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-            break;
-        case 'text':
-            isValid = value.length >= 3;
-            break;
-        case 'textarea':
-            isValid = value.length >= 10;
-            break;
-    }
-
-    if (isValid) {
-        input.classList.remove('invalid');
-        input.classList.add('valid');
-    } else {
-        input.classList.remove('valid');
-        input.classList.add('invalid');
-    }
-}
-
-contactForm.addEventListener('submit', async (e) => {
+// Form submission
+contactForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    const formData = {
-        name: contactForm.querySelector('[name="name"]').value,
-        email: contactForm.querySelector('[name="email"]').value,
-        message: contactForm.querySelector('[name="message"]').value
-    };
+    const submitButton = contactForm.querySelector('.submit-button');
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<span>Sending...</span> <i class="fas fa-spinner fa-spin"></i>';
 
     try {
-        const response = await fetch('your-api-endpoint/messages', {
+        const response = await fetch(contactForm.action, {
             method: 'POST',
+            body: new FormData(contactForm),
             headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
+                'Accept': 'application/json'
+            }
         });
 
+        const result = await response.json();
+        
         if (response.ok) {
-            alert('Message sent successfully!');
+            // Success
+            submitButton.innerHTML = '<span>Sent Successfully!</span> <i class="fas fa-check"></i>';
+            submitButton.style.backgroundColor = '#28a745';
             contactForm.reset();
+            
+            // Reset button after 3 seconds
+            setTimeout(() => {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<span>Send Message</span> <i class="fas fa-paper-plane"></i>';
+                submitButton.style.backgroundColor = '';
+            }, 3000);
+        } else {
+            throw new Error(result.error || 'Something went wrong');
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Failed to send message. Please try again.');
+        submitButton.innerHTML = '<span>Failed to send</span> <i class="fas fa-exclamation-circle"></i>';
+        submitButton.style.backgroundColor = '#dc3545';
+        
+        // Reset button after 3 seconds
+        setTimeout(() => {
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<span>Send Message</span> <i class="fas fa-paper-plane"></i>';
+            submitButton.style.backgroundColor = '';
+        }, 3000);
     }
 });

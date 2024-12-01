@@ -69,8 +69,9 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    padding: 2rem;
+    padding: 1.5rem;
     align-items: start;
+    text-align: left;
 }
 
 .project-header {
@@ -175,6 +176,8 @@
 
 .project-info {
     text-align: center;
+    margin-top: 1rem;
+    text-align: left;
 }
 
 /* Project Title */
@@ -182,11 +185,12 @@
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
     background: linear-gradient(to right, var(--accent-color), #2ecc71);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-align: left;
 }
 
 /* Project Description */
@@ -194,14 +198,14 @@
     font-size: 1.1rem;
     line-height: 1.6;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
+    margin: 0.5rem 0;
     opacity: 0.9;
 }
 
 /* Tech Stack Tags */
 .project-tech {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 1rem;
 }
@@ -371,7 +375,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    padding: 2rem;
+    padding: 1.5rem;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -498,4 +502,39 @@
 .dot.active {
     background-color: #fff;
     transform: scale(1.2);
+}
+
+.glass-card {
+    /* Ensure consistent padding */
+    padding: 1.5rem;
+    /* Ensure text alignment */
+    text-align: left;
+}
+
+.project-info {
+    /* Add proper spacing */
+    margin-top: 1rem;
+    /* Consistent text alignment */
+    text-align: left;
+}
+
+.project-info h3 {
+    margin-bottom: 0.5rem;
+    /* Ensure heading alignment */
+    text-align: left;
+}
+
+.project-info p {
+    /* Proper line height for readability */
+    line-height: 1.6;
+    /* Consistent margins */
+    margin: 0.5rem 0;
+}
+
+.project-tech {
+    /* Proper spacing for tech tags */
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
